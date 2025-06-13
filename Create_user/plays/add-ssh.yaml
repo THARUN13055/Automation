@@ -1,0 +1,4 @@
+- name: "Creating the ssh keygen file"
+  hosts: webservers
+  roles:
+    - add-ssh

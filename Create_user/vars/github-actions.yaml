@@ -1,0 +1,7 @@
+username: tharun
+selfhost_version: "2.325.0"
+
+github_actions:
+  - "admin"
+  - "frontend"
+  - "backend"

@@ -1,0 +1,21 @@
+- name: "Create GitHub Actions runner directories"
+  ansible.builtin.file:
+    path: "/home/{{ username }}/github-actions/{{ item }}"
+    state: directory
+    mode: '0755'
+  loop: "{{ github_actions }}"
+
+- name: "Download GitHub Actions runner"
+  ansible.builtin.get_url:
+    url: "https://github.com/actions/runner/releases/download/v{{ selfhost_version }}/actions-runner-linux-arm64-{{ selfhost_version }}.tar.gz"
+    dest: "/home/{{ username }}/github-actions/{{ item }}/actions-runner-linux-arm64-{{ selfhost_version }}.tar.gz"
+    mode: '0644'
+  loop: "{{ github_actions }}"
+
+- name: "Extract GitHub Actions runner"
+  ansible.builtin.unarchive:
+    src: "/home/{{ username }}/github-actions/{{ item }}/actions-runner-linux-arm64-{{ selfhost_version }}.tar.gz"
+    dest: "/home/{{ username }}/github-actions/{{ item }}"
+    remote_src: yes
+    mode: '0755'
+  loop: "{{ github_actions }}"

@@ -1,0 +1,4 @@
+- name: "Create Install the Github-actions"
+  hosts: webservers
+  tasks:
+    - add-action

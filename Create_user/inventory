@@ -1,0 +1,3 @@
+
+[webservers]
+dev ansible_host=3.111.154.189 ansible_user=ubuntu ansible_ssh_private_key_file=/home/work/Documents/pemfile/dev-admin.pem

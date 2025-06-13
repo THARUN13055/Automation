@@ -1,0 +1,23 @@
+- name: "Check the .ssh directory exists"
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.ssh"
+    state: directory
+    mode: '0700'
+
+- name: "Check .ssh/authorized_keys file exists"
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.ssh/authorized_keys"
+    state: touch
+    mode: '0600'
+
+- name: "Generate the SSH key pair"
+  ansible.builtin.openssh_keypair:
+    path: "/home/ubuntu/.ssh/{{ username }}"
+    type: rsa
+    size: 2048
+
+- name: "Add the public key to the authorized_keys file"
+  ansible.builtin.copy:
+    src: "/home/ubuntu/.ssh/{{ username }}.pub"
+    dest: "/home/{{ username }}/.ssh/authorized_keys"
+    mode: '0600'
