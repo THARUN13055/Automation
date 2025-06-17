@@ -3,3 +3,4 @@
     name: "{{ username }}"
     create_home: yes
     shell: /bin/bash
+  become: true

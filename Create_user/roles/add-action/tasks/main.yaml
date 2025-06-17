@@ -3,19 +3,55 @@
     path: "/home/{{ username }}/github-actions/{{ item }}"
     state: directory
     mode: '0755'
+    owner: "{{ username }}"
+    group: "{{ username }}"
   loop: "{{ github_actions }}"
 
 - name: "Download GitHub Actions runner"
   ansible.builtin.get_url:
-    url: "https://github.com/actions/runner/releases/download/v{{ selfhost_version }}/actions-runner-linux-arm64-{{ selfhost_version }}.tar.gz"
-    dest: "/home/{{ username }}/github-actions/{{ item }}/actions-runner-linux-arm64-{{ selfhost_version }}.tar.gz"
+    url: "https://github.com/actions/runner/releases/download/v{{ selfhost_version }}/actions-runner-linux-{{ system_architecture }}-{{ selfhost_version }}.tar.gz"
+    dest: "/home/{{ username }}/github-actions/{{ item }}/actions-runner-linux-{{ system_architecture }}-{{ selfhost_version }}.tar.gz"
     mode: '0644'
+    owner: "{{ username }}"
+    group: "{{ username }}"
   loop: "{{ github_actions }}"
 
 - name: "Extract GitHub Actions runner"
   ansible.builtin.unarchive:
-    src: "/home/{{ username }}/github-actions/{{ item }}/actions-runner-linux-arm64-{{ selfhost_version }}.tar.gz"
+    src: "/home/{{ username }}/github-actions/{{ item }}/actions-runner-linux-{{ system_architecture }}-{{ selfhost_version }}.tar.gz"
     dest: "/home/{{ username }}/github-actions/{{ item }}"
     remote_src: yes
     mode: '0755'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  loop: "{{ github_actions }}"
+
+- name: "Delete the downloaded tar.gz file"
+  ansible.builtin.file:
+    path: "/home/{{ username }}/github-actions/{{ item }}/actions-runner-linux-{{ system_architecture }}-{{ selfhost_version }}.tar.gz"
+    state: absent
+  loop: "{{ github_actions }}"
+
+- name: "Configure GitHub Actions runner"
+  ansible.builtin.shell: |
+    sudo -u {{ username }} ./config.sh \
+      --url "{{ vars[item].github_url }}" \
+      --token "{{ vars[item].token }}" \
+      --name "{{ vars[item].runner_name }}" \
+      --work "{{ vars[item].work }}" \
+      --labels "{{ vars[item].runner_labels }}" \
+      --runnergroup "{{ vars[item].runner_group }}" \
+      --unattended
+  args:
+    chdir: "/home/{{ username }}/github-actions/{{ item }}"
+    creates: "/home/{{ username }}/github-actions/{{ item }}/.runner"
+  loop: "{{ github_actions }}"
+
+- name: "Install GitHub Actions runner service"
+  ansible.builtin.shell: |
+    sudo ./svc.sh install
+    sudo ./svc.sh start
+  args:
+    chdir: "/home/{{ username }}/github-actions/{{ item }}"
+    creates: "/home/{{ username }}/github-actions/{{ item }}/.service"
   loop: "{{ github_actions }}"

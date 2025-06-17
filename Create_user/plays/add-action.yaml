@@ -1,4 +1,12 @@
-- name: "Create Install the Github-actions"
+# - name: "Create Install the Github-actions"
+#   hosts: webservers
+#   tasks:
+#     - add-action
+
+- name: Run only add-action role
   hosts: webservers
-  tasks:
+  become: yes
+  vars_files:
+    - ../vars/github-actions.yaml
+  roles:
     - add-action
