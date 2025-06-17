@@ -86,3 +86,9 @@ To get started, follow these steps:
     git clone git@github.com:THARUN13055/Automation.git
     cd Automation
     ansible-playbook -i inventory ./plays/setup-all.yaml -vv
+
+---
+
+## Ansible Workflow.!
+
+![User automation process showing Ansible playbooks and role execution](user_automation.png)
