@@ -17,6 +17,13 @@
     mode: '0600'
   become: true
 
+- name: "Download the File"
+  ansible.builtin.fetch:
+    src: "/home/{{ ansible_user }}/.ssh/{{ username }}"
+    dest: "{{ file_download_path }}/"
+    flat: yes
+  become: true
+
 - name: "Ensure new user .ssh directory exists"
   ansible.builtin.file:
     path: "/home/{{ username }}/.ssh"

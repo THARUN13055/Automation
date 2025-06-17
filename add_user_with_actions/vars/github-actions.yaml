@@ -4,28 +4,28 @@
 # This file is used to define variables for the GitHub Actions runner setup.
 # It includes the username, version, system architecture, and a list of GitHub Actions.
 
-
-username: "sample"
+username: "space"
 ansible_user: "tharun"
 selfhost_version: "2.325.0"
 system_architecture: "x64"
+file_download_path: "/home/tharun/tharun/ansible/Automation/Create_user"
 
 github_actions:
   # Here we define the n number of GitHub Actions you needs.
   - "admin"
   - "backend"
 
-admin: 
-  github_url: "https://github.com/THARUN13055/Automation"
-  token: "AWIDIO2RBUIGRKNXNDQJM73IKFVIK"
+admin:
+  github_url: "https://github.com/paynpro/novaplays_frontend"
+  token: "BMIQSESCWOCEVZUWJVM4AJTIKGF6I"
   runner_name: "admin-runner"
   runner_group: "default"
   runner_labels: "admin,linux,x64"
   work: "_work"
 
-backend: 
-  github_url: "https://github.com/THARUN13055/quick_install_linux"
-  token: "AWIDIO7XA3O3HLNTBF64F5LIKFVK2"
+backend:
+  github_url: "https://github.com/paynpro/royalclub_backend_test"
+  token: "BMIQSEVFLJ5Z6GV4MYX5ADDIKGGDC"
   runner_name: "backend-runner"
   runner_group: "default"
   runner_labels: "admin,linux,x64"
