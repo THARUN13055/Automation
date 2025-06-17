@@ -1,0 +1,4 @@
+- name: "Add the path of the visudo"
+  hosts: webservers
+  roles:
+    - add-path

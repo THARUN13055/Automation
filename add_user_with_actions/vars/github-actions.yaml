@@ -1,0 +1,32 @@
+# https://github.com/actions/runner/releases
+# Here we provider the url for runner release notes please gothorough the releases to find the latest version
+# and update the selfhost_version variable accordingly.
+# This file is used to define variables for the GitHub Actions runner setup.
+# It includes the username, version, system architecture, and a list of GitHub Actions.
+
+username: "space"
+ansible_user: "tharun"
+selfhost_version: "2.325.0"
+system_architecture: "x64"
+file_download_path: "/home/tharun/tharun/ansible/Automation/Create_user"
+
+github_actions:
+  # Here we define the n number of GitHub Actions you needs.
+  - "admin"
+  - "backend"
+
+admin:
+  github_url: "https://github.com/paynpro/novaplays_frontend"
+  token: "BMIQSESCWOCEVZUWJVM4AJTIKGF6I"
+  runner_name: "admin-runner"
+  runner_group: "default"
+  runner_labels: "admin,linux,x64"
+  work: "_work"
+
+backend:
+  github_url: "https://github.com/paynpro/royalclub_backend_test"
+  token: "BMIQSEVFLJ5Z6GV4MYX5ADDIKGGDC"
+  runner_name: "backend-runner"
+  runner_group: "default"
+  runner_labels: "admin,linux,x64"
+  work: "_work"

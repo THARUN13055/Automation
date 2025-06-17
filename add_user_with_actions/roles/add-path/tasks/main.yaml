@@ -1,0 +1,9 @@
+- name: Add sudo rule for GitHub Actions runner script
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/github-actions
+    state: present
+    create: yes
+    mode: '0440'
+    line: '{{ username }} ALL=(ALL) NOPASSWD: /home/{{ username }}/github-actions/{{ item }}/svc.sh *'
+    validate: 'visudo -cf %s'
+  loop: "{{ github_actions }}"

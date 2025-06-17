@@ -1,0 +1,60 @@
+- name: "Ensure current user .ssh directory exists"
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.ssh"
+    state: directory
+    mode: '0700'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  become: true
+
+- name: "Generate SSH key pair in current user directory"
+  community.crypto.openssh_keypair:
+    path: "/home/{{ ansible_user }}/.ssh/{{ username }}"
+    type: rsa
+    size: 2048
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0600'
+  become: true
+
+- name: "Download the File"
+  ansible.builtin.fetch:
+    src: "/home/{{ ansible_user }}/.ssh/{{ username }}"
+    dest: "{{ file_download_path }}/"
+    flat: yes
+  become: true
+
+- name: "Ensure new user .ssh directory exists"
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.ssh"
+    state: directory
+    mode: '0700'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  become: true
+
+- name: "Ensure .ssh/authorized_keys file exists for new user"
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.ssh/authorized_keys"
+    state: touch
+    mode: '0600'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  become: true
+
+- name: "Read the public key content from {{ ansible_user }}"
+  ansible.builtin.slurp:
+    src: "/home/{{ ansible_user }}/.ssh/{{ username }}.pub"
+  register: public_key_content
+  become: true
+
+- name: "Add {{ ansible_user }}'s public key to new user's authorized_keys"
+  ansible.posix.authorized_key:
+    user: "{{ username }}"
+    state: present
+    key: "{{ public_key_content.content | b64decode | trim }}"
+  become: true
+
+- name: "Display private key location for {{ ansible_user }} user"
+  debug:
+    msg: "Private key for {{ ansible_user }} user located at: /home/{{ ansible_user }}/.ssh/{{ username }}"
