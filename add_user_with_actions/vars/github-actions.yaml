@@ -4,29 +4,39 @@
 # This file is used to define variables for the GitHub Actions runner setup.
 # It includes the username, version, system architecture, and a list of GitHub Actions.
 
-username: "space"
-ansible_user: "tharun"
+username: "pvsplus"
+ansible_user: "ubuntu"
 selfhost_version: "2.325.0"
-system_architecture: "x64"
-file_download_path: "/home/tharun/tharun/ansible/Automation/Create_user"
+system_architecture: "arm64"
+file_download_path: "/Users/tharun/tharun/project/Automation/add_user_with_actions/pemfile_download"
 
 github_actions:
   # Here we define the n number of GitHub Actions you needs.
-  - "admin"
-  - "backend"
+  - "Supper_admin"
+  - "Collage_admin"
+  - "Backend"
 
-admin:
-  github_url: "https://github.com/paynpro/novaplays_frontend"
-  token: "BMIQSESCWOCEVZUWJVM4AJTIKGF6I"
-  runner_name: "admin-runner"
+Collage_admin:
+  github_url: "https://github.com/indishoppe/Collage_admin"
+  token: "BMIQSEUSTBDMGFWRRYTQLQLJCHN2C"
+  runner_name: "Collage_admin-runner-test"
   runner_group: "default"
-  runner_labels: "admin,linux,x64"
+  runner_labels: "Collage_admin-dev,test-Collage_admin,Linux"
   work: "_work"
 
-backend:
-  github_url: "https://github.com/paynpro/royalclub_backend_test"
-  token: "BMIQSEVFLJ5Z6GV4MYX5ADDIKGGDC"
-  runner_name: "backend-runner"
+Supper_admin:
+  github_url: "https://github.com/indishoppe/Supper_admin"
+  token: "BMIQSERTBZRTBP2OL2O2OV3JCHNJO"
+  runner_name: "Supper_admin-runner-test"
   runner_group: "default"
-  runner_labels: "admin,linux,x64"
+  runner_labels: "test-Supper_admin,Supper_admin-dev,ARM64,Linux"
   work: "_work"
+
+Backend:
+  github_url: "https://github.com/indishoppe/Backend"
+  token: "BMIQSEUOSLVYPNWWEBISSKLJCHNS4"
+  runner_name: "Backend-runner-test"
+  runner_group: "default"
+  runner_labels: "Backend-dev,test-Backend,Linux"
+  work: "_work"
+

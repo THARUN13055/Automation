@@ -7,4 +7,4 @@
     - create-user
     - add-ssh
     - add-action
-    - add-path
+    # - add-path
